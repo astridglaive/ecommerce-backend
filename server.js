@@ -18,17 +18,26 @@ app.use(cors({
 
 app.use(express.json());
 
-
+// Root route
 app.get('/', (req, res) => {
-    res.redirect('/api/products');
+    res.json({
+        message: 'Grand Piece Store API',
+        version: '1.0.0',
+        status: 'Running',
+        endpoints: {
+            products: '/api/products',
+            categories: '/api/categories',
+            productById: '/api/products/:id'
+        }
+    });
 });
 
-
+// Get all products
 app.get('/api/products', (req, res) => {
     res.json(products);
 });
 
-
+// Get single product by ID
 app.get('/api/products/:id', (req, res) => {
     const product = products.find(p => p.id === parseInt(req.params.id));
     if (product) {
@@ -38,14 +47,14 @@ app.get('/api/products/:id', (req, res) => {
     }
 });
 
-
+// Get all categories
 app.get('/api/categories', (req, res) => {
     const categories = [...new Set(products.map(p => p.category))];
     res.json(categories);
 });
 
-
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
     console.log(`API available at http://localhost:${PORT}/api/products`);
 });
