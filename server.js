@@ -8,6 +8,10 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.redirect('/api/products');
+});
+
 app.get('/api/products', (req, res) => {
     res.json(products);
 });
